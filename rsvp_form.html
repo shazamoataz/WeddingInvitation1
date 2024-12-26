@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Calligraffitti', cursive;
+            color: #626543;
+            text-align: left;
+            background-color: #eee5e5;
+            padding: 20px;
+        }
+
+        label, input {
+            font-family: 'Calligraffitti', cursive;
+            color: #626543;
+        }
+
+        input[type="text"], input[type="radio"] {
+            font-family: 'Calligraffitti', cursive;
+            color: #626543;
+            background-color: #FFDDE7;
+            border: 1px solid #FFf;
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            font-family: 'Calligraffitti', cursive;
+            color: #626543;
+            background-color: #FFDDE7;
+            border: 2px solid #FFDDE7;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #f7d2c1;
+        }
+    </style>
+</head>
+<body>
+    <form id="rsvpForm" method="POST">
+        <label for="name">Full Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="attendance">Excited to celebrate with us on our special day? 💕</label><br>
+        <input type="radio" id="yes" name="attendance" value="Yes, I can’t wait!" required> Yes, I can’t wait!<br>
+        <input type="radio" id="no" name="attendance" value="Unfortunately, I can’t make it, but I’m sending my best wishes!" required> Unfortunately, I can’t make it, but I’m sending my best wishes!<br><br>
+
+        <input type="submit" value="Send RSVP">
+    </form>
+
+    <script>
+        // JavaScript to handle form submission
+        const form = document.getElementById('rsvpForm');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+            const data = new URLSearchParams(formData).toString();
+
+            // Replace this URL with the Web App URL you got from Apps Script
+            const url = 'https://script.google.com/macros/s/AKfycbzqwpRtJ98C7tFFLro-JhW65gLFkrlmIOfJZ51AnQTpJnhX6_8KTrK0gBHI0IKZFE7d/exec';
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: data,
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert("RSVP Submitted Successfully!");
+            })
+            .catch(error => {
+                alert("Error submitting RSVP.");
+                console.error(error);
+            });
+        });
+    </script>
+</body>
+</html>
